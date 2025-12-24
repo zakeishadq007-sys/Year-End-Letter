@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amplop & Surat - Animasi</title>
+  <style>
+    :root {
+      --bg: #17162a;
+      --envelope: #d6a38e;
+      --envelope-shadow: #b78069;
+      --flap: #c78e78;
+      --paper: #ffe59a;
+      --paper-shadow: #f8d87b;
+      --accent: #ff5d8f;
+      --ink: #3b2e2a;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(1200px 1200px at 50% 60%, #2a2850 10%, var(--bg) 60%);
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    .scene {
+      width: min(420px, 92vw);
+      aspect-ratio: 1 / 1;
+      position: relative;
+      filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.5));
+      cursor: pointer;
+    }
+
+    .envelope {
+      position: absolute;
+      inset: 18% 8% 16% 8%;
+      border-radius: 8px;
+      background: linear-gradient(180deg, var(--envelope) 0%, #e3b9a7 40%, var(--envelope) 100%);
+    }
+
+    .flap {
+      position: absolute;
+      left: 0; right: 0; top: 0; height: 55%;
+      background: linear-gradient(180deg, var(--flap) 0%, #b27a67 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: 50% 0%;
+      transition: transform 0.9s ease;
+      z-index: 5;
+    }
+
+    .stamp {
+      position: absolute;
+      right: 10%;
+      bottom: 12%;
+      width: 60px; height: 44px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: bold;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      box-shadow: 0 3px 0 #b44068;
+      z-index: 6;
+    }
+
+    .paper {
+      position: absolute; left: 10%; right: 10%;
+      bottom: 12%;
+      height: 64%;
+      background: var(--paper);
+      border-radius: 6px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      transform: translateY(30%) scale(0.98);
+      opacity: 0;
+      transition: transform 0.9s ease, opacity 0.6s;
+      z-index: 2;
+      padding: 16px;
+      color: var(--ink);
+    }
+
+    .scene.open .flap { transform: rotateX(160deg); }
+    .scene.open .paper {
+      transform: translateY(-22%) scale(1);
+      opacity: 1;
+    }
+
+    .hint {
+      position: absolute; bottom: 4%; width: 100%;
+      text-align: center; font-size: 14px; color: #e6d7ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scene" id="scene" aria-label="Klik untuk membuka amplop">
+    <div class="envelope">
+      <div class="flap"></div>
+      <div class="stamp">SWI</div>
+      <div class="paper">
+        <h3>Judul Surat</h3>
+        <hr />
+        <p>Halo, ini contoh isi surat. Ganti dengan informasi acara, pengumuman resmi, atau ucapan personal.</p>
+        <p style="text-align:right;">Hormat kami,<br />Tim Project</p>
+      </div>
+    </div>
+    <div class="hint">Klik amplop untuk membuka segel</div>
+  </div>
+
+  <script>
+    const scene = document.getElementById('scene');
+    scene.addEventListener('click', () => {
+      scene.classList.add('open'); // sekali buka
+    });
+  </script>
+
+</body>
+</html>
