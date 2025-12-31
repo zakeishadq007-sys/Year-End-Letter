@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>zakei's year end letter</title>
+  <style>
+    :root {
+      --bg1: #374878;
+      --bg2: #0b1a48;
+      --envelope: #ffe8de;
+      --flap: #562a19;
+      --paper: #f3ede7;
+      --accent: #DFD0B9;
+      --paper-shadow: #e3d2bc;
+      --ink: #550615;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at bottom, var(--bg2), var(--bg1));
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-style: normal;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    #fireworks {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      pointer-events: none;
+      z-index: 0;
+      filter: contrast(110%) saturate(120%);
+    }
+
+    .scene {
+     width: clamp(300px, min(85vw, 80vh), 560px);
+     aspect-ratio: 1 / 1;
+     position: relative;
+     filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.5));
+     cursor: pointer;
+     margin: 20px auto;
+     z-index: 1;
+    }
+
+    .envelope {
+      position: absolute;
+      inset: clamp(60px, 20%, 120px) clamp(20px, 7%, 40px)
+            clamp(60px, 20%, 120px) clamp(20px, 7%, 40px);
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--envelope) 0%, #e3b9a7 40%, var(--envelope) 100%);
+      overflow: visible;
+    }
+
+
+    .envelope::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 54%;
+      background:
+        linear-gradient(135deg, transparent 48%, var(--envelope-shadow) 48.2%) left/50% 100% no-repeat,
+        linear-gradient(225deg, transparent 48%, var(--envelope-shadow) 48.2%) right/50% 100% no-repeat;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: center bottom;
+    }
+
+    .flap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 55%;
+      background: linear-gradient(180deg, var(--flap) 0%, #9a573d 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: 50% 0%;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 10;
+      transform: rotateX(0deg);
+    }
+
+    .stamp {
+      position: absolute;
+      left: 31%;
+      top: 25%;
+      width: 120px;
+      height: 120px;
+      border-radius: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: all 0.6s ease;
+      transform: rotate(5deg);
+    }
+
+    .stamp img {
+      width: 100px;
+      height: 100px;
+      object-fit: fill;
+      display: flex;
+    }
+
+    .stamp::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+    }
+
+    .paper {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      bottom: 12%;
+      height: 64%;
+      background: var(--paper);
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), inset 0 -10px 30px var(--paper-shadow);
+      z-index: 2;
+      padding: clamp(14px, 4vw, 24px);
+      color: var(--ink);
+      transform: translateY(30%) scale(0.98);
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .paper h3 {
+      margin: 0 0 8px;
+      font-size: clamp(20px, 3.5vw, 22px);
+      color: #041946;
+    }
+
+    .paper hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #d91b5c, transparent);
+      margin: 8px 0 12px;
+    }
+
+    .paper p {
+      font-size: clamp(14px, 3vw, 18px);
+      line-height: 2;
+      margin: 12px 0;
+      text-align: justify;
+    }
+
+    .paper .photos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .paper img {
+      width: clamp(140px, 30%, 300px);
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      margin: 10px 0;
+      display: block;
+    }
+
+    .hint {
+      position: absolute;
+      inset: auto 0 4% 0;
+      text-align: center;
+      font-size: clamp(12px, 2.8vw, 14px);
+      color: #e6d7ff;
+      opacity: 0.9;
+      user-select: none;
+      pointer-events: none;
+      z-index: 7;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.9;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .controls {
+      position: absolute;
+      top: 6%;
+      right: 8%;
+      display: flex;
+      gap: 8px;
+      z-index: 8;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(2px);
+    }
+
+    .scene.open .flap {
+      transform: rotateX(90deg);
+    }
+
+    .scene.open .paper {
+      transform: translateY(-10%) scale(1);
+      opacity: 1;
+    }
+
+    .scene.open .stamp {
+      transform: translateY(-120%) translateX(-50%) scale(0.98);
+      opacity: 0;
+    }
+
+    .scene.close .flap {
+      transform: rotateX(0deg);
+    }
+
+    .scene.close .paper {
+      transform: translateY(50%) scale(0.98);
+      opacity: 0;
+    }
+
+    @media (max-width: 600px) {
+      .paper {
+        padding: 14px;
+        top: 16%;
+        height: 66%;
+      }
+
+      .controls {
+        top: 4%;
+        right: 4%;
+        gap: 6px;
+      }
+
+      .btn {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fireworks"></canvas>
+
+  <div class="scene close" id="scene" role="button" tabindex="0" aria-label="Ketuk untuk membuka atau menutup amplop">
+    <div class="envelope">
+      <div class="flap"></div>
+
+      <div class="stamp">
+        <img src="stamp.png" alt="Stamp" />
+      </div>
+
+      <div class="paper">
+        <h3>Dear.. my gurl my lov priskaaa</h3>
+        <hr />
+        <p>
+        Well, first.. I hope this so-called letter running well at you..
+        </p>
+        <p>
+        Jadii.. kamu kan yang minta suratnya panjang yaa eheheh.. So I'm gonna make it long LOL
+        </p>
+        <p>
+        First.. aku seneng bisa deket sama kamu. Like for me that somehow NPC di kelas, I've never thought
+        bisa deket sama kamu, nichol, temen DT kita dan yang lainnya. But this, especially youu! 
+        </p>
+        <p>
+        Makasih udahh jadi temen akuu, maaf kalau ada hal-hal yang aku buat bikin kamu ga nyaman dan bete. 
+        Makasih udahh mau percaya sama aku untuk kamu cerita hal-hal yang mungkin more privat.
+        Makasihh... udahh jadii temen kelompok yang selalu bisa diandelin, temen kelas yang buat ga ngebosenin,
+        temen curhat yanggg udahh memaklumi kecegilankuu. Makasihh.. udahh.. hmm- POKOKNYA MAKASIH UDAH HIDUP HEHE!
+        </p>
+        <p>
+        2025 udah mau berakhir dan semoga kita bisa lepas dari bayang-bayang masa lalu. I mean, not only about Ex or something,
+        tapi juga soal temen, hal-hal nyebelin, nilai jelek, soal sesuatu yang belum kita capaii dann sebagainyaa. Because I believe that Allah make 
+        the best bestestt plan for us. SOO.. mari kita lepasin dan ikhlasin all the bad things happened in 2025 and let's cheer for 2026 instead. 
+        </p>
+        <p>
+        Di 2026, inshaAllah kita bisa tetep jaga hubungan baik inii. Semoga kita selalu dijauhkan dari orang2 buruk dan dideketkan sama orang2 baikk.
+        Semoga we have a nice car, nice day, nice guy, nice skin, nice body, nice relationship, nice brain and nice moneyy. 
+        Semoga bisa lebih survive di perkuliahann and keep our college-life balance. And maybe that's all I want to say
+        and let me keep the rest in my prayer.
+        Sekali lagii.. selamat tahunn baruuuu PRISKAA!!🎊💥
+        </p>
+        
+        <p>
+          enapa aku pilih lagu ini...? Because as you taught me, love never wasted when it shares🥹
+          - Olivia Dean, A Couple Minutes
+        </p>
+        <p style="text-align:right;">
+          Sincerely,<br />@zakeishadq
+        </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hint">Ketuk untuk BUKA — ketuk lagi untuk TUTUP</div>
+
+    <div class="controls" aria-label="Kontrol audio">
+      <button class="btn" id="btnMute">🔊 Suara</button>
+    </div>
+  </div>
+
+  <audio id="music" loop>
+    <source src="Olivia Dean - A Couple Minutes.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Element references
+    const scene = document.getElementById('scene');
+    const music = document.getElementById('music');
+    const btnMute = document.getElementById('btnMute');
+
+    // Music settings
+    music.volume = 0.6;
+    let isOpen = false;
+
+    // Music control functions
+    function playMusicSafe() {
+      music.play().catch(err => {
+        console.warn('Tidak bisa memutar audio sekarang:', err);
+      });
+    }
+
+    function pauseMusic() {
+      music.pause();
+    }
+
+    // Toggle envelope open/close
+    function toggleEnvelope(e) {
+      e.stopPropagation();
+      if (isOpen) {
+        scene.classList.remove('open');
+        scene.classList.add('close');
+        pauseMusic();
+        isOpen = false;
+      } else {
+        scene.classList.remove('close');
+        scene.classList.add('open');
+        playMusicSafe();
+        isOpen = true;
+      }
+    }
+
+    // Event listeners for envelope
+    scene.addEventListener('click', toggleEnvelope);
+    scene.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleEnvelope(e);
+      }
+    });
+
+    // Mute button
+    btnMute.addEventListener('click', (e) => {
+      e.stopPropagation();
+      music.muted = !music.muted;
+      btnMute.textContent = music.muted ? '🔇 Mute' : '🔊 Suara';
+    });
+
+    // Load music
+    music.load();
+
+    // ============================================
+    // FIREWORKS CANVAS
+    // ============================================
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+
+    // Canvas resize with DPI awareness
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(innerWidth * dpr);
+      canvas.height = Math.floor(innerHeight * dpr);
+      canvas.style.width = innerWidth + 'px';
+      canvas.style.height = innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    resizeCanvas();
+
+    // Utility functions
+    const rand = (min, max) => Math.random() * (max - min) + min;
+    const colors = ['#ffb703', '#fb5607', '#ff006e', '#8338ec', '#3a86ff', '#00f5d4', '#ffd166'];
+
+    // Particle class
+    class Particle {
+      constructor(x, y, color, speed, angle) {
+        this.x = x;
+        this.y = y;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.alpha = 1;
+        this.size = rand(1, 2.6);
+        this.color = color;
+        this.gravity = 0.05;
+        this.friction = 0.992;
+        this.twinkle = Math.random() < 0.25;
+        this.life = rand(50, 120);
+        this.age = 0;
+      }
+
+      update() {
+        this.age++;
+        this.vx *= this.friction;
+        this.vy *= this.friction;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha = Math.max(0, 1 - (this.age / this.life));
+      }
+
+      draw(ctx) {
+        if (this.twinkle && Math.random() < 0.05) return;
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      get dead() {
+        return this.alpha <= 0.02;
+      }
+    }
+
+    // Rocket class
+    class Rocket {
+      constructor(x, targetY, color) {
+        this.x = x;
+        this.y = innerHeight + rand(20, 80);
+        this.vx = rand(-0.8, 0.8);
+        this.vy = rand(-9, -12);
+        this.targetY = targetY;
+        this.color = color;
+        this.trail = [];
+        this.exploded = false;
+      }
+
+      update() {
+        if (this.exploded) return;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.08;
+        this.trail.push({ x: this.x, y: this.y });
+        if (this.trail.length > 10) this.trail.shift();
+        if (this.y <= this.targetY || this.vy >= -0.5) {
+          this.exploded = true;
+          explode(this.x, this.y, this.color);
+        }
+      }
+
+      draw(ctx) {
+        if (this.exploded) return;
+        ctx.fillStyle = '#fff';
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        for (let i = 0; i < this.trail.length - 1; i++) {
+          const a = this.trail[i];
+          const b = this.trail[i + 1];
+          ctx.strokeStyle = this.color;
+          ctx.globalAlpha = i / this.trail.length;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
+    }
+
+    // Arrays for particles and rockets
+    const particles = [];
+    const rockets = [];
+
+    // Explosion function
+    function explode(x, y, baseColor) {
+      const shards = Math.floor(rand(40, 85));
+      for (let i = 0; i < shards; i++) {
+        const angle = rand(0, Math.PI * 2);
+        const speed = rand(2.2, 6.8);
+        const color = Math.random() < 0.2 ? '#ffffff' : baseColor;
+        particles.push(new Particle(x, y, color, speed, angle));
+      }
+      if (Math.random() < 0.35) {
+        const ringColor = colors[(Math.random() * colors.length) | 0];
+        for (let i = 0; i < 40; i++) {
+          const angle = (i / 40) * Math.PI * 2;
+          particles.push(new Particle(x, y, ringColor, 4.5, angle));
+        }
+      }
+    }
+
+    // Animation loop
+    function tick() {
+      ctx.fillStyle = 'rgba(10, 13, 24, 0.25)';
+      ctx.fillRect(0, 0, innerWidth, innerHeight);
+
+      // Spawn new rockets randomly
+      if (Math.random() < 0.03) {
+        rockets.push(new Rocket(
+          rand(innerWidth * 0.1, innerWidth * 0.9),
+          rand(innerHeight * 0.18, innerHeight * 0.45),
+          colors[(Math.random() * colors.length) | 0]
+        ));
+      }
+
+      // Update and draw rockets
+      for (let i = rockets.length - 1; i >= 0; i--) {
+        const r = rockets[i];
+        r.update();
+        r.draw(ctx);
+        if (r.exploded) rockets.splice(i, 1);
+      }
+
+      // Update and draw particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        p.draw(ctx);
+        if (p.dead) particles.splice(i, 1);
+      }
+
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // Click anywhere to create fireworks
+    window.addEventListener('pointerdown', (e) => {
+      explode(e.clientX, e.clientY, colors[(Math.random() * colors.length) | 0]);
+    });
+  </script>
+</body>
+</html>
